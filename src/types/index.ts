@@ -7,3 +7,9 @@ export interface Task {
   status: Status;
   dueDate: Date;
 }
+
+export interface Filters {
+  status: Status | null;
+  dueDateFrom: string | null;
+  dueDateTo: string | null;
+}

@@ -5,25 +5,23 @@ import { FaPlus } from "react-icons/fa";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useGetTasks from "../../hooks/useGetTasks";
+import type { Filters } from "../../types";
 
 const { RangePicker } = DatePicker;
 
 const Tasks = () => {
   const navigate = useNavigate();
-  const { data } = useGetTasks();
+  const [filters, setFilters] = useState<Filters>({
+    status: null,
+    dueDateFrom: null,
+    dueDateTo: null,
+  });
+
+  const { data } = useGetTasks(filters);
 
   const tasks = data?.payload;
   console.log(data);
 
-  const [filters, setFilters] = useState<{
-    status: number | null;
-    dueDateFrom: string | null;
-    dueDateTo: string | null;
-  }>({
-    status: 0,
-    dueDateFrom: null,
-    dueDateTo: null,
-  });
   return (
     <div>
       <div className="tasks-filters">
@@ -88,7 +86,27 @@ const Tasks = () => {
         }}
         dataSource={tasks}
         pagination={{
-          pageSize: 5,
+          pageSize: data?.pageSize,
+          total: data?.totalCount,
+          current: data?.pageNumber,
+          showSizeChanger: true,
+          pageSizeOptions: ["5", "10", "15", "20"],
+          showTotal: (total, range) =>
+            `${range[0]}-${range[1]} of ${total} items`,
+          onChange: (page, pageSize) => {
+            setFilters((prev) => ({
+              ...prev,
+              pageNumber: page,
+              pageSize: pageSize,
+            }));
+          },
+          onShowSizeChange: (_, size) => {
+            setFilters((prev) => ({
+              ...prev,
+              pageNumber: 1,
+              pageSize: size,
+            }));
+          },
         }}
         renderItem={(item) => (
           <List.Item>
@@ -102,6 +120,13 @@ const Tasks = () => {
           </List.Item>
         )}
       />
+      <span></span>
+      <div>Page: {data?.pageNumber}</div>
+      <div>Page Size: {data?.pageSize}</div>
+      <div>Total Pages: {data?.totalPages}</div>
+      <div>Total Count: {data?.totalCount}</div>
+      <div>Has Previous Page: {data?.hasPreviousPage ? "Yes" : "No"}</div>
+      <div>Has Next Page: {data?.hasNextPage ? "Yes" : "No"}</div>
     </div>
   );
 };

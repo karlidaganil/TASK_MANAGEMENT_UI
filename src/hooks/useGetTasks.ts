@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import type { Task } from "../types";
+import type { Filters, Task } from "../types";
 import API, { type PaginatedResponse } from "../api";
 
-const useGetTasks = () => {
+const useGetTasks = (filters: Filters) => {
   const [data, setData] = useState<PaginatedResponse<Task[] | []>>({
     success: true,
     payload: [],
@@ -16,9 +16,11 @@ const useGetTasks = () => {
   });
 
   const fetchTasks = useCallback(async () => {
-    const response = await API.get<PaginatedResponse<Task[] | []>>("/all");
+    const response = await API.get<PaginatedResponse<Task[] | []>>("/all", {
+      params: filters,
+    });
     setData(response.data);
-  }, []);
+  }, [filters]);
 
   useEffect(() => {
     (async () => {
