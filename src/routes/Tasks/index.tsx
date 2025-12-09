@@ -2,6 +2,8 @@ import { Button, DatePicker, List } from "antd";
 import TaskCard from "./components/TaskCard/TaskCard";
 import "./style.scss";
 import { FaPlus } from "react-icons/fa";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const { RangePicker } = DatePicker;
 
@@ -14,28 +16,62 @@ const data = Array.from({ length: 30 }).map((_, i) => ({
 }));
 
 const Tasks = () => {
+  const navigate = useNavigate();
+
+  const [filters, setFilters] = useState<{
+    status: number | null;
+    dueDateFrom: string | null;
+    dueDateTo: string | null;
+  }>({
+    status: 0,
+    dueDateFrom: null,
+    dueDateTo: null,
+  });
   return (
     <div>
       <div className="tasks-filters">
         <div className="tasks-filters-buttons">
-          <Button type="primary" size="large">
+          <Button
+            type={filters.status === null ? "primary" : "default"}
+            size="large"
+            onClick={() => setFilters({ ...filters, status: null })}
+          >
             All
           </Button>
-          <Button type="default" size="large">
+          <Button
+            type={filters.status === 0 ? "primary" : "default"}
+            size="large"
+            onClick={() => setFilters({ ...filters, status: 0 })}
+          >
             To Do
           </Button>
-          <Button type="default" size="large">
+          <Button
+            type={filters.status === 1 ? "primary" : "default"}
+            size="large"
+            onClick={() => setFilters({ ...filters, status: 1 })}
+          >
             In Progress
           </Button>
-          <Button type="default" size="large">
+          <Button
+            type={filters.status === 2 ? "primary" : "default"}
+            size="large"
+            onClick={() => setFilters({ ...filters, status: 2 })}
+          >
             Done
           </Button>
         </div>
         <RangePicker
           placeholder={["Due Date From", "Due Date To"]}
           style={{ width: "500px" }}
+          onChange={(dates) => {
+            setFilters({
+              ...filters,
+              dueDateFrom: dates?.[0]?.toISOString() || null,
+              dueDateTo: dates?.[1]?.toISOString() || null,
+            });
+          }}
         />
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={() => navigate("/create-task")}>
           <FaPlus /> Add Task
         </Button>
       </div>
