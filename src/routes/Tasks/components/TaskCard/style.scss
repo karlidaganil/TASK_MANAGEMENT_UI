@@ -1,0 +1,14 @@
+.task-card-due-date {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+.task-card-edit-delete-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  gap: 1rem;
+}
