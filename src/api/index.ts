@@ -14,7 +14,7 @@ export interface PaginatedResponse<T> {
 
 export interface Response<T> {
   success: boolean;
-  sayload: T;
+  payload: T;
   message: string;
 }
 

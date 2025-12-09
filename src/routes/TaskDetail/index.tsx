@@ -2,10 +2,20 @@ import { FaArrowLeft, FaSave, FaTrash } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./style.scss";
 import { Button, Card, DatePicker, Flex, Form, Input, Select } from "antd";
+import { useState } from "react";
+import type { UpdateTask } from "../../types";
 
 const TaskDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const [form, setForm] = useState<UpdateTask>({
+    id: Number(id),
+    title: "",
+    description: "",
+    status: 0,
+    dueDate: "",
+  });
 
   const handleDelete = () => {
     console.log("delete");

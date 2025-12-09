@@ -20,3 +20,12 @@ export interface CreateTask {
   status: number;
   dueDate: string;
 }
+
+
+export interface UpdateTask {
+  id: number;
+  title: string;
+  description: string;
+  status: number;
+  dueDate: string;
+}
