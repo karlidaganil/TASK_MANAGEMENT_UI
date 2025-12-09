@@ -1,5 +1,12 @@
+import { DatePicker, Button } from "antd";
+
 const Tasks = () => {
-  return <div>Tasks</div>;
+  return (
+    <>
+      <DatePicker />
+      <Button>Click me</Button>
+    </>
+  );
 };
 
 export { Tasks };
