@@ -9,4 +9,4 @@ const Tasks = () => {
   );
 };
 
-export { Tasks };
+export default Tasks;

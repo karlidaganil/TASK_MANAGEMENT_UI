@@ -1,9 +1,9 @@
-import Routes from "./routes";
+import Layout from "./layout";
 
 function App() {
   return (
     <>
-      <Routes />
+      <Layout />
     </>
   );
 }
