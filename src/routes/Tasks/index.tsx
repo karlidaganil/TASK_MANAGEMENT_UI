@@ -1,5 +1,9 @@
-import { List } from "antd";
+import { Button, DatePicker, List } from "antd";
 import TaskCard from "./components/TaskCard/TaskCard";
+import "./style.scss";
+import { FaPlus } from "react-icons/fa";
+
+const { RangePicker } = DatePicker;
 
 const data = Array.from({ length: 30 }).map((_, i) => ({
   title: `Card Title ${i + 1}`,
@@ -10,7 +14,30 @@ const data = Array.from({ length: 30 }).map((_, i) => ({
 
 const Tasks = () => {
   return (
-    <>
+    <div>
+      <div className="tasks-filters">
+        <div className="tasks-filters-buttons">
+          <Button type="primary" size="large">
+            All
+          </Button>
+          <Button type="default" size="large">
+            To Do
+          </Button>
+          <Button type="default" size="large">
+            In Progress
+          </Button>
+          <Button type="default" size="large">
+            Done
+          </Button>
+        </div>
+        <RangePicker
+          placeholder={["Due Date From", "Due Date To"]}
+          style={{ width: "500px" }}
+        />
+        <Button type="primary" size="large">
+          <FaPlus /> Add Task
+        </Button>
+      </div>
       <List
         grid={{
           gutter: 16,
@@ -23,7 +50,7 @@ const Tasks = () => {
         }}
         dataSource={data}
         pagination={{
-          pageSize: 2,
+          pageSize: 5,
         }}
         renderItem={(item) => (
           <List.Item>
@@ -36,7 +63,7 @@ const Tasks = () => {
           </List.Item>
         )}
       />
-    </>
+    </div>
   );
 };
 

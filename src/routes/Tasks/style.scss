@@ -1,0 +1,10 @@
+.tasks-filters {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  .tasks-filters-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+}
