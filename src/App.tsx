@@ -1,9 +1,18 @@
+import { ConfigProvider } from "antd";
 import Layout from "./layout";
 
 function App() {
   return (
     <>
-      <Layout />
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "51b4fbff",
+          },
+        }}
+      >
+        <Layout />
+      </ConfigProvider>
     </>
   );
 }
