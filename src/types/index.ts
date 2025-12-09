@@ -13,3 +13,10 @@ export interface Filters {
   dueDateFrom: string | null;
   dueDateTo: string | null;
 }
+
+export interface CreateTask {
+  title: string;
+  description: string;
+  status: number;
+  dueDate: string;
+}

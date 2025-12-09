@@ -13,9 +13,9 @@ export interface PaginatedResponse<T> {
 }
 
 export interface Response<T> {
-  Success: boolean;
-  Payload: T;
-  Message: string;
+  success: boolean;
+  sayload: T;
+  message: string;
 }
 
 const API = axios.create({
