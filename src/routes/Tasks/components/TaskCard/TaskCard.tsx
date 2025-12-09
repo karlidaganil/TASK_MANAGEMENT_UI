@@ -36,7 +36,7 @@ const TaskCard = ({
     >
       {description}
       <div className="task-card-due-date">
-        <span>Due Date: {dueDate.toLocaleDateString()}</span>
+        <span>Due Date: {new Date(dueDate).toLocaleDateString()}</span>
       </div>
       <div className="task-card-edit-delete-buttons">
         <Button type="primary" icon={<FaEdit />} onClick={handleEdit} />

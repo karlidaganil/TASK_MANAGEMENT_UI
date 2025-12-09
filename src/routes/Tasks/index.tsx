@@ -4,19 +4,16 @@ import "./style.scss";
 import { FaPlus } from "react-icons/fa";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useGetTasks from "../../hooks/useGetTasks";
 
 const { RangePicker } = DatePicker;
 
-const data = Array.from({ length: 30 }).map((_, i) => ({
-  id: i + 1,
-  title: `Card Title ${i + 1}`,
-  description: "This is a sample card description",
-  status: 0,
-  dueDate: new Date(),
-}));
-
 const Tasks = () => {
   const navigate = useNavigate();
+  const { data } = useGetTasks();
+
+  const tasks = data?.payload;
+  console.log(data);
 
   const [filters, setFilters] = useState<{
     status: number | null;
@@ -71,7 +68,11 @@ const Tasks = () => {
             });
           }}
         />
-        <Button type="primary" size="large" onClick={() => navigate("/create-task")}>
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => navigate("/create-task")}
+        >
           <FaPlus /> Add Task
         </Button>
       </div>
@@ -85,7 +86,7 @@ const Tasks = () => {
           xl: 4,
           xxl: 6,
         }}
-        dataSource={data}
+        dataSource={tasks}
         pagination={{
           pageSize: 5,
         }}
