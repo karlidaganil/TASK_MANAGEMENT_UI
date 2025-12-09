@@ -1,0 +1,19 @@
+.back-to-task-list {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  text-decoration: none;
+  &:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+  }
+}
+.task-detail-container {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

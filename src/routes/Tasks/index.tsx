@@ -6,6 +6,7 @@ import { FaPlus } from "react-icons/fa";
 const { RangePicker } = DatePicker;
 
 const data = Array.from({ length: 30 }).map((_, i) => ({
+  id: i + 1,
   title: `Card Title ${i + 1}`,
   description: "This is a sample card description",
   status: 0,
@@ -55,6 +56,7 @@ const Tasks = () => {
         renderItem={(item) => (
           <List.Item>
             <TaskCard
+              id={item.id}
               title={item.title}
               description={item.description}
               status={item.status}
