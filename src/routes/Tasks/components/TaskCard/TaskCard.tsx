@@ -1,7 +1,8 @@
-import { Button, Card, Tag } from "antd";
+import { Button, Card, message, Tag } from "antd";
 import "./style.scss";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import useDeleteTask from "../../../../hooks/useDeleteTask";
 
 const TaskCard = ({
   id,
@@ -9,19 +10,30 @@ const TaskCard = ({
   description,
   status,
   dueDate,
+  fetchTasks,
 }: {
   id: number;
   title: string;
   description: string;
   status: number;
-  dueDate: Date;
+  dueDate: string;
+  fetchTasks: () => void;
 }) => {
   const navigate = useNavigate();
+  const { deleteTask } = useDeleteTask();
+
   const handleEdit = () => {
     navigate(`/task/${id}`);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    const response = await deleteTask(id);
+    if (response.success) {
+      message.success("Task deleted successfully");
+      fetchTasks();
+    } else {
+      message.error(response.message);
+    }
     console.log("delete");
   };
 
@@ -36,7 +48,9 @@ const TaskCard = ({
       style={{ height: "250px" }}
     >
       <span>
-        {description.length > 100 ? description.slice(0, 100) + "..." : description}
+        {description.length > 100
+          ? description.slice(0, 100) + "..."
+          : description}
       </span>
       <div className="task-card-due-date">
         <span>Due Date: {new Date(dueDate).toLocaleDateString()}</span>

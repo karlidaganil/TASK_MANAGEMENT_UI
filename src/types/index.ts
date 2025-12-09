@@ -5,7 +5,7 @@ export interface Task {
   title: string;
   description: string;
   status: Status;
-  dueDate: Date;
+  dueDate: string;
 }
 
 export interface Filters {

@@ -17,7 +17,7 @@ const Tasks = () => {
     dueDateTo: null,
   });
 
-  const { data } = useGetTasks(filters);
+  const { data, fetchTasks } = useGetTasks(filters);
 
   const tasks = data?.payload;
   console.log(data);
@@ -116,6 +116,7 @@ const Tasks = () => {
               description={item.description}
               status={item.status}
               dueDate={item.dueDate}
+              fetchTasks={fetchTasks}
             />
           </List.Item>
         )}
