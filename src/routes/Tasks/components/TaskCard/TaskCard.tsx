@@ -33,8 +33,11 @@ const TaskCard = ({
           {status === 0 ? "To Do" : status === 1 ? "In Progress" : "Done"}
         </Tag>
       }
+      style={{ height: "250px" }}
     >
-      {description}
+      <span>
+        {description.length > 100 ? description.slice(0, 100) + "..." : description}
+      </span>
       <div className="task-card-due-date">
         <span>Due Date: {new Date(dueDate).toLocaleDateString()}</span>
       </div>

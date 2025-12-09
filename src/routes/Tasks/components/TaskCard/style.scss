@@ -7,6 +7,9 @@
   color: var(--secondary-color);
 }
 .task-card-edit-delete-buttons {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;
