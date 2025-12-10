@@ -17,7 +17,7 @@ export interface Filters {
 export interface CreateTask {
   title: string;
   description: string;
-  status: number;
+  status: number | null;
   dueDate: string;
 }
 

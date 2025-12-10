@@ -5,7 +5,7 @@ import {
 } from "react-router-dom";
 import Tasks from "./Tasks";
 import TaskDetail from "./TaskDetail";
-import CreateTask from "./CreateTask";
+import CreateNewTask from "./CreateNewTask";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/create-task",
-    Component: () => <CreateTask />,
+    Component: () => <CreateNewTask />,
   },
   {
     path: "*",

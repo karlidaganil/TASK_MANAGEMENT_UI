@@ -1,6 +1,3 @@
-import { FaArrowLeft, FaSave, FaTrash } from "react-icons/fa";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import "./style.scss";
 import {
   Button,
   Card,
@@ -11,16 +8,15 @@ import {
   message,
   Select,
 } from "antd";
-import { useEffect, useState } from "react";
-import type { UpdateTask } from "../../types";
-import useGetTaskDetail from "../../hooks/useGetTaskDetail";
-import dayjs, { Dayjs } from "dayjs";
-import useUpdateTask from "../../hooks/useUpdateTask";
-import useDeleteTask from "../../hooks/useDeleteTask";
+import { useState } from "react";
+import { FaSave } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import type { CreateTask } from "../../types";
+import useCreateTask from "../../hooks/useCreateTask";
 import * as yup from "yup";
+import dayjs from "dayjs";
 
-const updateTaskSchema = yup.object().shape({
-  id: yup.number().required(),
+const createTaskSchema = yup.object().shape({
   title: yup
     .string()
     .required("Title is required")
@@ -45,42 +41,28 @@ const updateTaskSchema = yup.object().shape({
     }),
 });
 
-const TaskDetail = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-
-  const { fetchTaskDetail } = useGetTaskDetail(id as string);
-  const { updateTask } = useUpdateTask();
-  const { deleteTask } = useDeleteTask();
-
-  const [form, setForm] = useState<UpdateTask>({
-    id: Number(id),
+const CreateNewTask = () => {
+  const [form, setForm] = useState<CreateTask>({
     title: "",
     description: "",
-    status: 0,
+    status: null,
     dueDate: "",
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  useEffect(() => {
-    (async () => {
-      const response = await fetchTaskDetail();
-      if (response.success) {
-        setForm((prev) => ({ ...prev, ...response.payload }));
-      }
-    })();
-  }, [id, fetchTaskDetail]);
+  const { createTask } = useCreateTask();
+  const navigate = useNavigate();
 
   const handleSave = async () => {
     try {
       // Validate with Yup
-      await updateTaskSchema.validate(form, { abortEarly: false });
+      await createTaskSchema.validate(form, { abortEarly: false });
       setErrors({});
 
-      const response = await updateTask(form);
+      const response = await createTask(form);
       if (response.success) {
-        message.success("Task updated successfully");
+        message.success("Task created successfully");
         navigate("/");
       } else {
         message.error(response.message);
@@ -99,32 +81,15 @@ const TaskDetail = () => {
     }
   };
 
-  const handleDelete = async () => {
-    const response = await deleteTask(form.id);
-    if (response.success) {
-      message.success("Task deleted successfully");
-      navigate("/");
-    } else {
-      message.error(response.message);
-    }
-  };
+  console.log("errors", errors);
+
   return (
-    <div className="task-detail-container">
-      <Link to="/" className="back-to-task-list">
-        <FaArrowLeft /> Back to Task List
-      </Link>
-      <Card
-        style={{ width: "100%" }}
-        title={`Task Detail ${id}`}
-        extra={
-          <Button type="primary" icon={<FaTrash />} onClick={handleDelete}>
-            Delete
-          </Button>
-        }
-      >
+    <div>
+      <Card style={{ width: "100%" }} title="Create Task">
         <Form layout="vertical">
           <Form.Item
             label="Title"
+            name="title"
             validateStatus={errors.title ? "error" : ""}
             help={errors.title}
           >
@@ -140,6 +105,7 @@ const TaskDetail = () => {
           </Form.Item>
           <Form.Item
             label="Description"
+            name="description"
             validateStatus={errors.description ? "error" : ""}
             help={errors.description}
           >
@@ -155,6 +121,7 @@ const TaskDetail = () => {
           </Form.Item>
           <Form.Item
             label="Status"
+            name="status"
             validateStatus={errors.status ? "error" : ""}
             help={errors.status}
           >
@@ -175,17 +142,18 @@ const TaskDetail = () => {
           </Form.Item>
           <Form.Item
             label="Due Date"
+            name="dueDate"
             validateStatus={errors.dueDate ? "error" : ""}
             help={errors.dueDate}
           >
             <DatePicker
               placeholder="Select Due Date"
               style={{ width: "100%" }}
-              value={dayjs(form.dueDate, "YYYY-MM-DD")}
-              onChange={(value: Dayjs | null) => {
+              value={form.dueDate ? dayjs(form.dueDate) : null}
+              onChange={(value) => {
                 setForm({
                   ...form,
-                  dueDate: value ? value.format("YYYY-MM-DD") : "",
+                  dueDate: value ? value.toISOString() : "",
                 });
                 if (errors.dueDate) {
                   setErrors({ ...errors, dueDate: "" });
@@ -204,4 +172,4 @@ const TaskDetail = () => {
   );
 };
 
-export default TaskDetail;
+export default CreateNewTask;
