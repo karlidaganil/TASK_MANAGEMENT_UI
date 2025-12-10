@@ -1,4 +1,4 @@
-import { Button, Card, message, Tag } from "antd";
+import { Button, Card, message, Popconfirm, Tag } from "antd";
 import "./style.scss";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
@@ -57,7 +57,12 @@ const TaskCard = ({
       </div>
       <div className="task-card-edit-delete-buttons">
         <Button type="primary" icon={<FaEdit />} onClick={handleEdit} />
-        <Button type="primary" icon={<FaTrash />} onClick={handleDelete} />
+        <Popconfirm
+          title="Are you sure you want to delete this task?"
+          onConfirm={handleDelete}
+        >
+          <Button type="primary" icon={<FaTrash />} />
+        </Popconfirm>
       </div>
     </Card>
   );

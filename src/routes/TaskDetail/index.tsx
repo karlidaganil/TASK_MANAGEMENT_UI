@@ -9,6 +9,7 @@ import {
   Form,
   Input,
   message,
+  Popconfirm,
   Select,
 } from "antd";
 import { useEffect, useState } from "react";
@@ -18,32 +19,9 @@ import dayjs, { Dayjs } from "dayjs";
 import useUpdateTask from "../../hooks/useUpdateTask";
 import useDeleteTask from "../../hooks/useDeleteTask";
 import * as yup from "yup";
+import { updateTaskSchema } from "../../validations";
 
-const updateTaskSchema = yup.object().shape({
-  id: yup.number().required(),
-  title: yup
-    .string()
-    .required("Title is required")
-    .min(3, "Title must be at least 3 characters")
-    .max(100, "Title must not exceed 100 characters"),
-  description: yup
-    .string()
-    .required("Description is required")
-    .min(10, "Description must be at least 10 characters")
-    .max(500, "Description must not exceed 500 characters"),
-  status: yup
-    .number()
-    .required("Status is required")
-    .oneOf([0, 1, 2], "Status must be To Do, In Progress, or Done"),
-  dueDate: yup
-    .string()
-    .required("Due date is required")
-    .test("is-future", "Due date must be in the future", function (value) {
-      if (!value) return false;
-      const dueDate = dayjs(value);
-      return dueDate.isAfter(dayjs(), "day");
-    }),
-});
+
 
 const TaskDetail = () => {
   const navigate = useNavigate();
@@ -117,9 +95,14 @@ const TaskDetail = () => {
         style={{ width: "100%" }}
         title={`Task Detail ${id}`}
         extra={
-          <Button type="primary" icon={<FaTrash />} onClick={handleDelete}>
-            Delete
-          </Button>
+          <Popconfirm
+            title="Are you sure you want to delete this task?"
+            onConfirm={handleDelete}
+          >
+            <Button type="primary" icon={<FaTrash />}>
+              Delete
+            </Button>
+          </Popconfirm>
         }
       >
         <Form layout="vertical">
