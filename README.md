@@ -13,7 +13,7 @@ Starting the Project
 
 Run the project with:
 
-yarn start
+"yarn start" or "npm run start" 
 
 
 The application will start on the following local development server:
