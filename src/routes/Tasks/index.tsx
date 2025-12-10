@@ -121,13 +121,6 @@ const Tasks = () => {
           </List.Item>
         )}
       />
-      <span></span>
-      <div>Page: {data?.pageNumber}</div>
-      <div>Page Size: {data?.pageSize}</div>
-      <div>Total Pages: {data?.totalPages}</div>
-      <div>Total Count: {data?.totalCount}</div>
-      <div>Has Previous Page: {data?.hasPreviousPage ? "Yes" : "No"}</div>
-      <div>Has Next Page: {data?.hasNextPage ? "Yes" : "No"}</div>
     </div>
   );
 };
